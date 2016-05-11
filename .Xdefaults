@@ -48,7 +48,8 @@ URxvt.perl-ext-common:	default,matcher
 URxvt.url-launcher: 	/usr/bin/google-chrome-stable
 URxvt.matcher.button: 	1
 URxvt*internalBorder: 	16
-
+URxvt.iso14755: 	false
+URxvt.iso14755_52: 	false
 ! Colours ----------------------------------
 
 !*fading:                40
