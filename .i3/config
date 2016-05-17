@@ -1,0 +1,168 @@
+# Floating Windows
+for_window [class="XTerm"] floating enable
+for_window [class="URxvt"] floating enable
+for_window [class="Thunar"] floating enable
+for_window [class="Nautilus"] floating enable
+for_window [class="GParted"] floating enable
+for_window [class="Gedit"] floating enable
+for_window [class="Deluge"] floating enable
+for_window [class="Filezilla"] floating enable
+for_window [class="File-roller"] floating enable
+for_window [class="Gnome-terminal"] floating enable
+
+# 0px Border Windows
+for_window [class="chrome"] border none, move container to workspace 2:web
+for_window [class="Firefox"] border none,move container to workspace 2:web
+for_window [class="Spotify"] border none, move container to workspace 4:aux
+
+# 1px Border Windows
+for_window [class="URxvt" ] border 1pixel
+
+# Modkey
+set $mod Mod4
+
+# Aesthetics
+bindsym $mod+Shift+n border normal
+bindsym $mod+Shift+x border none
+bindsym $mod+Shift+o border 1pixel
+
+# Font
+# font -gohu-gohufont-*-*-*-*-11-*-*-*-*-*-*-*
+font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+
+# Mod+Mouse to move (isn't really needed)
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec --no-startup-id urxvt
+
+# kill focused window
+bindsym $mod+Shift+q kill
+set $bg-color 	         #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+# Start dmenu
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+bindsym $mod+Control+Left exec "i3-msg move left && i3-msg move left && i3-msg move left && i3-msg move left && i3-msg move left"
+bindsym $mod+Control+Down exec "i3-msg move down && i3-msg move down && i3-msg move down && i3-msg move down && i3-msg move down"
+bindsym $mod+Control+Up exec "i3-msg move up && i3-msg move up && i3-msg move up && i3-msg move up && i3-msg move up"
+bindsym $mod+Control+Right exec "i3-msg move right && i3-msg move right && i3-msg move right && i3-msg move right && i3-msg move right"
+
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+#change keyboard layout
+set $outPutMode "output config: a=audio-hdmi, b=audio-internal, c=audio-headphones, d=hdmi-mirroring, e=hdmi-left, f=hdmi-off"
+bindcode $mod+Shift+32 mode $outPutMode
+mode $outPutMode {
+	bindcode 44 exec "pactl set-card-profile 0 output:hdmi-stereo", mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+
+set $keyboardMode "keyboard j=ua, u=us"
+bindcode $mod+Shift+31 mode $keyboardMode
+mode $keyboardMode {
+    bindcode 44 exec "setxkbmap ua", mode "default"
+    bindcode 30 exec "setxkbmap us", mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+# switch to workspace
+bindsym $mod+1 workspace 1:main
+bindsym $mod+2 workspace 2:web
+bindsym $mod+3 workspace 3:term
+bindsym $mod+4 workspace 4:aux
+bindsym $mod+5 workspace 5:vid
+bindsym $mod+6 workspace 6:dev
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1:main
+bindsym $mod+Shift+2 move container to workspace 2:web
+bindsym $mod+Shift+3 move container to workspace 3:term
+bindsym $mod+Shift+4 move container to workspace 4:aux
+bindsym $mod+Shift+5 move container to workspace 5:vid
+bindsym $mod+Shift+6 move container to workspace 6:dev
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3
+bindsym $mod+Shift+r restart
+# exit i3
+bindsym $mod+Shift+e exec "i3-msg exit"
+# lock i3
+bindsym $mod+Shift+l exec "$HOME/.bin/scripts/lock.sh $HOME/Pictures/Icons/lock.png"
+# screenshot
+bindsym $mod+Shift+s exec "mkdir -p Pictures/Screenshots && scrot -q 100 Pictures/Screenshots/scrot.jpg"
+
+# Colors
+
+#name                   #top    #border #text
+client.focused          #402e2e #978965 #402e2e #978965
+client.unfocused        #402e2e #402e2e #978965 #402e2e
+client.focused_inactive #402e2e #402e2e #978965 #402e2e
+client.urgent           #402e2e #402e2e #978965 #402e2e
+
+# Start i3bar
+bar {
+	status_command i3blocks 
+#-c ~/.i3/i3status.conf
+	strip_workspace_numbers yes
+	tray_output primary
+
+	colors {
+	    statusline  #978965
+	    background  #1f1f1f
+
+		#name              #border #bg     #text
+	    focused_workspace  #978965 #402e2e #978965
+	    active_workspace   #402e2e #402e2e #978965
+	    inactive_workspace #402e2e #402e2e #978965
+	    urgent_workspace   #402e2e #402e2e #978965
+	}
+}
+
+exec --no-startup-id i3-msg 'exec spotify'
+exec --no-startup-id i3-msg 'exec google-chrome-stable'
+exec --no-startup-id nm-applet
+exec $HOME/.bin/scripts/lock.sh $HOME/Pictures/Icons/lock.png
+exec compton -f
+exec --no-startup-id synergyc EPUALVIW0018
