@@ -1,0 +1,6 @@
+#!/bin/bash
+scrot  ~/lockbg.png
+convert -blur 0x3 ~/lockbg.png ~/lockbg.png
+convert -gravity East -composite ~/lockbg.png ~/lock.png ~/lockfinal.png
+i3lock -u -p win  -i ~/lockfinal.png
+rm ~/lockfinal.png ~/lockbg.png

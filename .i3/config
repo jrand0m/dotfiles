@@ -1,4 +1,14 @@
 # Floating Windows
+set $webWP  web
+set $mainWP  main
+set $devWP  dev
+set $termWP  term
+set $msgWP  msg
+set $vidWP  vid
+set $mailWP  mail
+workspace "8:$mailWP" output HDMI1
+workspace "9:$msgWP" output HDMI1
+
 for_window [class="XTerm"] floating enable
 for_window [class="URxvt"] floating enable
 for_window [class="Thunar"] floating enable
@@ -11,16 +21,22 @@ for_window [class="File-roller"] floating enable
 for_window [class="Gnome-terminal"] floating enable
 
 # 0px Border Windows
-for_window [class="chrome"] border none, move container to workspace 2:web
-for_window [class="Firefox"] border none,move container to workspace 2:web
+for_window [class="chrome"] border none, move container to workspace 2:$webWP
+for_window [class="chromium-browser"] border none, move container to workspace 2:$webWP
+#--class Firefox-skype
+for_window [class="^Firefox$"] border none,move container to workspace 2:$webWP
 for_window [class="Spotify"] border none, move container to workspace 4:aux
-
+for_window [class="skype"] border none, move container to workspace 9:$msgWP
+#for_window [class="Firefox-skype"] border none, move container to workspace 9:$msgWP
+#for_window [class="Firefox-owa"] border none, move container to workspace 8:$mailWP
+assign [class="^Firefox-skype$"] → 9:$msgWP
+assign [class="^Firefox-owa$"] → 8:$mailWP
+for_window [class="jetbrains-idea-ce"] border none, move container to workspace 6:$devWP
 # 1px Border Windows
 for_window [class="URxvt" ] border 1pixel
 
 # Modkey
 set $mod Mod4
-
 # Aesthetics
 bindsym $mod+Shift+n border normal
 bindsym $mod+Shift+x border none
@@ -28,7 +44,7 @@ bindsym $mod+Shift+o border 1pixel
 
 # Font
 # font -gohu-gohufont-*-*-*-*-11-*-*-*-*-*-*-*
-font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+#font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 
 # Mod+Mouse to move (isn't really needed)
 floating_modifier $mod
@@ -46,18 +62,35 @@ set $urgent-bg-color     #E53935
 # Start dmenu
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
-
+bindsym F2 exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -dmenu'
+#bindsym $mod+g exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
+# mod + s
+bindcode $mod+39 layout stacking 
+# mod + w
+bindcode $mod+35 layout tabbed
+# mod + e
+bindcode $mod+26 layout toggle split
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 bindsym $mod+Control+Left exec "i3-msg move left && i3-msg move left && i3-msg move left && i3-msg move left && i3-msg move left"
 bindsym $mod+Control+Down exec "i3-msg move down && i3-msg move down && i3-msg move down && i3-msg move down && i3-msg move down"
 bindsym $mod+Control+Up exec "i3-msg move up && i3-msg move up && i3-msg move up && i3-msg move up && i3-msg move up"
@@ -89,47 +122,64 @@ mode $outPutMode {
 }
 
 
-set $keyboardMode "keyboard j=ua, u=us"
+set $keyboardMode "keyboard j=ua, u=us, d=dvorak"
 bindcode $mod+Shift+31 mode $keyboardMode
 mode $keyboardMode {
     bindcode 44 exec "setxkbmap ua", mode "default"
     bindcode 30 exec "setxkbmap us", mode "default"
+    bindcode 40 exec "setxkbmap dvp", mode "default"
+    
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 # switch to workspace
-bindsym $mod+1 workspace 1:main
-bindsym $mod+2 workspace 2:web
-bindsym $mod+3 workspace 3:term
+bindsym $mod+1 workspace 1:$mainWP
+bindsym $mod+2 workspace 2:$webWP
+bindsym $mod+3 workspace 3:$termWP
 bindsym $mod+4 workspace 4:aux
 bindsym $mod+5 workspace 5:vid
-bindsym $mod+6 workspace 6:dev
+bindsym $mod+6 workspace 6:$devWP
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
-
+bindsym $mod+8 workspace 8:$mailWP
+bindsym $mod+9 workspace 9:$msgWP
+bindsym $mod+0 workspace 10:vmx
+bindsym $mod+Tab            workspace next
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1:main
-bindsym $mod+Shift+2 move container to workspace 2:web
-bindsym $mod+Shift+3 move container to workspace 3:term
+bindsym $mod+Shift+1 move container to workspace 1:$mainWP
+
+bindsym $mod+Shift+2 move container to workspace 2:$webWP
+bindsym $mod+Shift+3 move container to workspace 3:$termWP
 bindsym $mod+Shift+4 move container to workspace 4:aux
 bindsym $mod+Shift+5 move container to workspace 5:vid
-bindsym $mod+Shift+6 move container to workspace 6:dev
+bindsym $mod+Shift+6 move container to workspace 6:$devWP
 bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+8 move container to workspace 8:$mailWP
+bindsym $mod+Shift+9 move container to workspace 9:$msgWP
+bindsym $mod+Shift+0 move container to workspace 10:vmx
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3
 bindsym $mod+Shift+r restart
 # exit i3
-bindsym $mod+Shift+e exec "i3-msg exit"
+#bindsym $mod+Shift+e exec "i3-msg exit"
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id /home/mike/.bin/i3exit-mod lock, mode "default"
+    bindsym e exec --no-startup-id /home/mike/.bin/i3exit-mod logout, mode "default"
+    bindsym s exec --no-startup-id /home/mike/.bin/i3exit-mod suspend, mode "default"
+    bindsym h exec --no-startup-id /home/mike/.bin/i3exit-mod hibernate, mode "default"
+    bindsym r exec --no-startup-id /home/mike/.bin/i3exit-mod reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id /home/mike/.bin/i3exit-mod shutdown, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Pause mode "$mode_system"
 # lock i3
-bindsym $mod+Shift+l exec "$HOME/.bin/scripts/lock.sh $HOME/Pictures/Icons/lock.png"
+#bindsym $mod+Shift+l exec "$HOME/.bin/scripts/lock.sh $HOME/Pictures/Icons/lock.png"
 # screenshot
 bindsym $mod+Shift+s exec "mkdir -p Pictures/Screenshots && scrot -q 100 Pictures/Screenshots/scrot.jpg"
 
@@ -143,11 +193,12 @@ client.urgent           #402e2e #402e2e #978965 #402e2e
 
 # Start i3bar
 bar {
+#	output          HDMI1
 	status_command i3blocks 
 #-c ~/.i3/i3status.conf
 	strip_workspace_numbers yes
-	tray_output primary
-
+	tray_output HDMI1 
+	font xft:Droid Sans Mono, FontAwesome 10
 	colors {
 	    statusline  #978965
 	    background  #1f1f1f
@@ -160,9 +211,13 @@ bar {
 	}
 }
 
-exec --no-startup-id i3-msg 'exec spotify'
-exec --no-startup-id i3-msg 'exec google-chrome-stable'
+#exec --no-startup-id i3-msg 'exec spotify'
+#exec --no-startup-id i3-msg 'exec google-chrome-stable'
+exec --no-startup-id xrandr  --output VGA1 --auto --left-of HDMI1
 exec --no-startup-id nm-applet
-exec $HOME/.bin/scripts/lock.sh $HOME/Pictures/Icons/lock.png
+exec $HOME/.bin/i3lock.sh 
 exec compton -f
 exec --no-startup-id synergyc EPUALVIW0018
+exec --no-startup-id diodon
+exec --no-startup-id firefox -P 'skype' -no-remote --class=Firefox-skype -url "https://web.skype.com/en/" -new-window
+exec --no-startup-id firefox -P 'owa' -no-remote --class=Firefox-owa -new-window 'https://owabud.epam.com/owa/#path=/mail' -new-tab 'https://owa.aerlingus.com/owa/'
