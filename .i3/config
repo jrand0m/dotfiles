@@ -122,14 +122,14 @@ mode $outPutMode {
 }
 
 
-set $keyboardMode "keyboard j=ua, u=us, d=dvorak"
+set $keyboardMode "keyboard j=ua, u=us,m=workman, d=dvorak"
 bindcode $mod+Shift+31 mode $keyboardMode
 mode $keyboardMode {
-    bindcode 44 exec "setxkbmap ua", mode "default"
-    bindcode 30 exec "setxkbmap us", mode "default"
+    bindcode 44 exec "setxkbmap ua && xset -r 66", mode "default"
+    bindcode 30 exec "setxkbmap us && xset -r 66", mode "default"
+    bindcode 58 exec "setxkbmap us; xmodmap /home/mike/.keyboardLayouts/xmodmap/xmodmap.workman-p && xset r 66", mode "default"
     bindcode 40 exec "setxkbmap dvp", mode "default"
     
-    # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -197,8 +197,13 @@ bar {
 	status_command i3blocks 
 #-c ~/.i3/i3status.conf
 	strip_workspace_numbers yes
+<<<<<<< HEAD
+	tray_output LVDS1 
+
+=======
 	tray_output HDMI1 
 	font xft:Droid Sans Mono, FontAwesome 10
+>>>>>>> 224f2fe113d96c35f5d00fcece77de836075be7a
 	colors {
 	    statusline  #978965
 	    background  #1f1f1f
@@ -218,6 +223,10 @@ exec --no-startup-id nm-applet
 exec $HOME/.bin/i3lock.sh 
 exec compton -f
 exec --no-startup-id synergyc EPUALVIW0018
+<<<<<<< HEAD
+exec --no-startup-id nitrogen --restore
+=======
 exec --no-startup-id diodon
 exec --no-startup-id firefox -P 'skype' -no-remote --class=Firefox-skype -url "https://web.skype.com/en/" -new-window
 exec --no-startup-id firefox -P 'owa' -no-remote --class=Firefox-owa -new-window 'https://owabud.epam.com/owa/#path=/mail' -new-tab 'https://owa.aerlingus.com/owa/'
+>>>>>>> 224f2fe113d96c35f5d00fcece77de836075be7a
