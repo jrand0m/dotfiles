@@ -197,13 +197,7 @@ bar {
 	status_command i3blocks 
 #-c ~/.i3/i3status.conf
 	strip_workspace_numbers yes
-<<<<<<< HEAD
-	tray_output LVDS1 
-
-=======
-	tray_output HDMI1 
 	font xft:Droid Sans Mono, FontAwesome 10
->>>>>>> 224f2fe113d96c35f5d00fcece77de836075be7a
 	colors {
 	    statusline  #978965
 	    background  #1f1f1f
@@ -223,10 +217,7 @@ exec --no-startup-id nm-applet
 exec $HOME/.bin/i3lock.sh 
 exec compton -f
 exec --no-startup-id synergyc EPUALVIW0018
-<<<<<<< HEAD
 exec --no-startup-id nitrogen --restore
-=======
 exec --no-startup-id diodon
 exec --no-startup-id firefox -P 'skype' -no-remote --class=Firefox-skype -url "https://web.skype.com/en/" -new-window
 exec --no-startup-id firefox -P 'owa' -no-remote --class=Firefox-owa -new-window 'https://owabud.epam.com/owa/#path=/mail' -new-tab 'https://owa.aerlingus.com/owa/'
->>>>>>> 224f2fe113d96c35f5d00fcece77de836075be7a
