@@ -3,7 +3,7 @@ set $webWP  web
 set $mainWP  main
 set $devWP  dev
 set $termWP  term
-set $msgWP  msg
+set $msgWP  msg
 set $vidWP  vid
 set $mailWP  mail
 workspace "8:$mailWP" output HDMI1
