@@ -89,11 +89,12 @@ mode $outPutMode {
 }
 
 
-set $keyboardMode "keyboard j=ua, u=us"
+set $keyboardMode "keyboard j=ua, u=us,m=workman"
 bindcode $mod+Shift+31 mode $keyboardMode
 mode $keyboardMode {
-    bindcode 44 exec "setxkbmap ua", mode "default"
-    bindcode 30 exec "setxkbmap us", mode "default"
+    bindcode 44 exec "setxkbmap ua && xset -r 66", mode "default"
+    bindcode 30 exec "setxkbmap us && xset -r 66", mode "default"
+    bindcode 58 exec "setxkbmap us; xmodmap /home/mike/.keyboardLayouts/xmodmap/xmodmap.workman-p && xset r 66", mode "default"
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -146,7 +147,7 @@ bar {
 	status_command i3blocks 
 #-c ~/.i3/i3status.conf
 	strip_workspace_numbers yes
-	tray_output primary
+	tray_output LVDS1 
 
 	colors {
 	    statusline  #978965
@@ -166,3 +167,4 @@ exec --no-startup-id nm-applet
 exec $HOME/.bin/scripts/lock.sh $HOME/Pictures/Icons/lock.png
 exec compton -f
 exec --no-startup-id synergyc EPUALVIW0018
+exec --no-startup-id nitrogen --restore
