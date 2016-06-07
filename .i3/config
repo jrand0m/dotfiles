@@ -41,7 +41,7 @@ set $mod Mod4
 bindsym $mod+Shift+n border normal
 bindsym $mod+Shift+x border none
 bindsym $mod+Shift+o border 1pixel
-
+bindkeycode 107 exec --no-startup-id scrot -c -d 3 /home/mike/Pictures/Screenshots/screenshot.jpg
 # Font
 # font -gohu-gohufont-*-*-*-*-11-*-*-*-*-*-*-*
 #font -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
